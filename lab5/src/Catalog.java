@@ -15,6 +15,18 @@ public class Catalog implements Serializable {
         this.path = path;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
+    }
+
     public String getName() {
         return name;
     }
@@ -46,4 +58,10 @@ public class Catalog implements Serializable {
         return null;
     }
 
+    @Override
+    public String toString() {
+        return  name + '\n' +
+                path + '\n' +
+               documents +'\n';
+    }
 }
