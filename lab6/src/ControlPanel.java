@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import static java.lang.System.exit;
 
@@ -16,6 +17,7 @@ public class ControlPanel extends JPanel {
     JButton saveBtn = new JButton("Save");
     JButton loadBtn = new JButton("Load");
     JButton resetBtn = new JButton("Reset");
+    JButton deleteBtn = new JButton("Delete");
     JButton exitBtn = new JButton("Exit");
 
     public ControlPanel(MainFrame frame) {
@@ -29,12 +31,25 @@ public class ControlPanel extends JPanel {
         add(saveBtn);
         add(loadBtn);
         add(resetBtn);
+        add(deleteBtn);
         add(exitBtn);
 
         saveBtn.addActionListener(this::save);
         exitBtn.addActionListener(this::exitt);
         resetBtn.addActionListener(this::reset);
+        deleteBtn.addActionListener(this::delete);
         loadBtn.addActionListener(this::load);
+    }
+
+    private void delete(ActionEvent e) {
+        Graphics2D graphics = frame.canvas.getImage().createGraphics();
+        graphics.setColor(Color.WHITE);
+        List<Polygon> polygons = frame.canvas.getShapes();
+        if (polygons.size() > 0) {
+            Polygon lastShape = polygons.get(polygons.size() - 1);
+            graphics.fill(lastShape);
+            frame.canvas.deleteLastShape();
+        }
     }
 
     private void save(ActionEvent e) {
@@ -57,10 +72,11 @@ public class ControlPanel extends JPanel {
 
     private void load(ActionEvent e) {
         JFileChooser fileChooser = new JFileChooser();
-        int choose = fileChooser.showOpenDialog(frame);
+        int choose = fileChooser.showOpenDialog(null);
         fileChooser.setAcceptAllFileFilterUsed(false);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG and jpg images", "png", "jpg");
         fileChooser.addChoosableFileFilter(filter);
+        fileChooser.setFileFilter(filter);
         if (choose == JFileChooser.APPROVE_OPTION) {
             try {
                 BufferedImage image = ImageIO.read(new FileInputStream(fileChooser.getSelectedFile().getAbsolutePath()));
