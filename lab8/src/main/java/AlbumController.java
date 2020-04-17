@@ -51,4 +51,26 @@ public class AlbumController {
 
         return albumList;
     }
+
+    public List<Album> getAllAlbums() {
+        List<Album> albumList = new ArrayList();
+
+        String sql = "SELECT * FROM albums";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Album album = new Album();
+                album.setId(resultSet.getInt("id"));
+                album.setArtistId(resultSet.getInt("artist_id"));
+                album.setName(resultSet.getString("name"));
+                album.setReleaseYear(resultSet.getInt("release_year"));
+
+                albumList.add(album);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return albumList;
+    }
 }
