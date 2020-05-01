@@ -7,7 +7,7 @@ import util.PersistenceUtil;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class AlbumRepository {
+public class AlbumRepository extends AbstractRepository<Album> {
    private EntityManager entityManager=PersistenceUtil.getInstance().getFactory().createEntityManager();
 
    public void create(Album album){
@@ -32,4 +32,5 @@ public class AlbumRepository {
     public void closeEntityManager(){
        entityManager.close();
     }
+
 }
