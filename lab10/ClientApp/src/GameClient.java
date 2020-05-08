@@ -13,20 +13,20 @@ public class GameClient {
              BufferedReader keyboardIn=new BufferedReader(new InputStreamReader(System.in));
         ) {
 
-            String request;
-            String response;
+            String fromServer;
+            String myResponse;
+
+            fromServer=in.readLine();
+            fromServer=fromServer.replaceAll(";n;","\n");
+            System.out.println(fromServer);
             do{
-                System.out.println("Tastati cererea (comanda stop pt a inchide)");
-                request=keyboardIn.readLine();
-                out.println(request);
-                System.out.println("Am trimis cererea: '"+request+"' ...Astept raspunsul.");
 
-                response=in.readLine();
-                System.out.println("Am primit raspunsul: '"+ response+"'");
-
-            }while(!response.equalsIgnoreCase("Serverul s-a oprit."));
-            System.out.println();
-            System.out.println("Clientul a terminat executia.");
+                myResponse = keyboardIn.readLine();
+                out.println(myResponse);
+                fromServer=in.readLine();
+                fromServer=fromServer.replaceAll(";n;","\n");
+                System.out.println(fromServer);
+            }while(!fromServer.startsWith("Jocul s-a terminat."));
         }catch (Exception e){
             e.printStackTrace();
         }
